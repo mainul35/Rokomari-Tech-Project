@@ -1,6 +1,8 @@
 package com.rokomari.techieHunt.Services;
 
 import com.rokomari.techieHunt.Model.Topic;
+import com.rokomari.techieHunt.repositories.TopicRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,13 +15,19 @@ import java.util.NoSuchElementException;
  */
 @Service
 public class TopicService {
-    private List<Topic> topics = new ArrayList<>(Arrays.asList(
-            new Topic("java", "Description of JAVA"),
-            new Topic("php", "Description of PHP")
-    ));
+
+    @Autowired
+    private TopicRepository topicRepository;
+
+//    private List<Topic> topics = new ArrayList<>(Arrays.asList(
+//            new Topic("java", "Description of JAVA"),
+//            new Topic("php", "Description of PHP")
+//    ));
 
     public List<Topic> getAllTopics(){
-        return this.topics;
+        List<Topic> topics = new ArrayList<>();
+        topicRepository.findAll().forEach(topics::add);
+        return topics;
     }
 
     public Topic getTopic(String topicName){
@@ -31,18 +39,14 @@ public class TopicService {
     }
 
     public void addTopic(Topic topic){
-        this.getAllTopics().add(topic);
+        topicRepository.save(topic);
     }
 
     public void addTopic(String id, Topic topic) {
-        for(int i = 0; i<topics.size(); i++){
-            if(topics.get(i).getTopicName().equals(id)){
-                topics.set(i, topic);
-            }
-        }
+        topicRepository.save(topic);
     }
 
     public void deleteTopic(String id) {
-        topics.removeIf(t->{return t.getTopicName().equals(id);});
+//        topics.removeIf(t->{return t.getTopicName().equals(id);});
     }
 }

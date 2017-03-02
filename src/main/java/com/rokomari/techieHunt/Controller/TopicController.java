@@ -1,4 +1,4 @@
-package com.rokomari.techieHunt.controller;
+package com.rokomari.techieHunt.Controller;
 
 import com.rokomari.techieHunt.Model.Topic;
 import com.rokomari.techieHunt.Services.TopicService;

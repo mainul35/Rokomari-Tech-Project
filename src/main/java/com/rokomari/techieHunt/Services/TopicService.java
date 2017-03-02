@@ -19,23 +19,24 @@ public class TopicService {
     @Autowired
     private TopicRepository topicRepository;
 
-//    private List<Topic> topics = new ArrayList<>(Arrays.asList(
-//            new Topic("java", "Description of JAVA"),
-//            new Topic("php", "Description of PHP")
-//    ));
+    private List<Topic> topics = new ArrayList<>(Arrays.asList(
+            new Topic("java", "Description of JAVA"),
+            new Topic("php", "Description of PHP")
+    ));
 
     public List<Topic> getAllTopics(){
         List<Topic> topics = new ArrayList<>();
-        topicRepository.findAll().forEach(topics::add);
+//        topicRepository.findAll().forEach(topics::add);
         return topics;
     }
 
     public Topic getTopic(String topicName){
         try {
-            return this.getAllTopics().stream().filter(topic->topic.getTopicName().equals(topicName)).findFirst().get();
+//            return this.getAllTopics().stream().filter(topic->topic.getTopicName().equals(topicName)).findFirst().get();
         }catch (NoSuchElementException e){
-            return null;
+
         }
+        return null;
     }
 
     public void addTopic(Topic topic){

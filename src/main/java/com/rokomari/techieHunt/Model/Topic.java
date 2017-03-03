@@ -1,7 +1,12 @@
 package com.rokomari.techieHunt.Model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Mainul35 on 2/27/2017.
@@ -9,10 +14,18 @@ import javax.persistence.Id;
 @Entity
 public class Topic {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
+    Long id;
+    @Size(max = 25)
+    @NotNull
     String topicName;
+    @NotNull
+    @Size(max = 200)
     String topicDescription;
 
-    public Topic() {}
+    public Topic() {
+    }
 
     public Topic(String topicName, String topicDescription) {
         this.topicName = topicName;

@@ -2,17 +2,25 @@ package com.rokomari.techieHunt;
 
 import java.util.Properties;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
+@EnableJpaRepositories
 @EnableTransactionManagement
 public class Config {
 
@@ -65,11 +73,25 @@ public class Config {
     }
 
     @Bean
-    public HibernateTransactionManager transactionManager() {
-        HibernateTransactionManager transactionManager =
-                new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory().getObject());
+    public PlatformTransactionManager transactionManager() {
+        final JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory());
         return transactionManager;
     }
+
+    @Bean
+    public EntityManagerFactory entityManagerFactory() {
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPackagesToScan("com.rokomari.techieHunt");
+        factory.setDataSource(dataSource());
+        factory.afterPropertiesSet();
+
+        return factory.getObject();
+    }
+
 
 } // class DatabaseConfig

@@ -24,13 +24,13 @@ public class Patient {
     @NotNull
     private String patientProblem;
     @NotNull
-    @ManyToMany
+    @ManyToOne
     @JoinTable(name = "DOCTOR_PATIENT",
             joinColumns = @JoinColumn(name = "DOCTOR_ID"),
             inverseJoinColumns = @JoinColumn(name = "PATIENT_ID"))
 
     private
-    Collection<Doctor> doctors = new ArrayList<>();
+    Doctor doctor;
 
     public Integer getId() {
         return id;
@@ -56,12 +56,12 @@ public class Patient {
         this.patientAddress = patientAddress;
     }
 
-    public Collection<Doctor> getDoctors() {
-        return doctors;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setDoctors(Collection<Doctor> doctors) {
-        this.doctors = doctors;
+    public void setDoctors(Doctor doctor) {
+        this.doctor = doctor;
     }
 
     public String getPatientProblem() {

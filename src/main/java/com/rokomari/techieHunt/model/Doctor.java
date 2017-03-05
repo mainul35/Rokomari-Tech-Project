@@ -22,7 +22,7 @@ public class Doctor {
     @Size(max = 100)
     private String speciality;
     @NotNull
-    @ManyToMany(mappedBy = "doctors")
+    @OneToMany(mappedBy = "doctor")
     private
     Collection<Patient> patients = new ArrayList<>();
 
